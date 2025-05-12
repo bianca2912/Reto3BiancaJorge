@@ -11,11 +11,11 @@ public class CategoriasDAO {
 
     public static void insertarCategoria() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Introduce el nombre de la nueva categoría: ");
+        System.out.print("Introduce el nombre de la nueva categoria: ");
         String nombre = sc.nextLine();
         
         if (nombre.isEmpty()) {
-            System.out.println("El nombre no puede estar vacío.");
+            System.out.println("El nombre no puede estar vacio.");
             return;
         }
 
@@ -28,13 +28,13 @@ public class CategoriasDAO {
                int filas = stmt.executeUpdate();
 
                if (filas > 0) {
-                   System.out.println("Categoría insertada correctamente.");
+                   System.out.println("Categoria insertada correctamente.");
                } else {
-                   System.out.println("No se pudo insertar la categoría.");
+                   System.out.println("No se pudo insertar la categoria.");
                }
 
            } catch (SQLException e) {
-               System.out.println("Error al insertar categoría.");
+               System.out.println("Error al insertar categoria.");
                e.printStackTrace();
            }
     }
