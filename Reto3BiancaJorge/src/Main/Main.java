@@ -2,6 +2,8 @@ package Main;
 
 import java.util.Scanner;
 
+import ClasesDAO.CategoriasDAO;
+
 public class Main {
 
 	public static void main(String[] args) {
@@ -38,6 +40,9 @@ public class Main {
 			
 		} while (numero>0 && numero<6);	
 		
+		System.out.println("Nueva categoria");
+		String n=sc.nextLine();
+		CategoriasDAO.insertarCategoria(n);
 
 	}
 	public static void menu() {
@@ -48,5 +53,6 @@ public class Main {
 			System.out.println("El numero no coincide con el menu");
 		}
 	}
+	
 
 }
