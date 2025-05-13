@@ -43,6 +43,7 @@ public class Main {
 		System.out.println("Nueva categoria");
 		String n=sc.nextLine();
 		CategoriasDAO.insertarCategoria(n);
+		
 
 	}
 	public static void menu() {
