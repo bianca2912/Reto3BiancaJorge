@@ -33,7 +33,7 @@ public class CategoriasDAO {
                 System.out.println("Error al insertar categoría.");
                 e.printStackTrace();
             }
-    }
+    } 
 }
 
 
