@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import Conexion.Conexion;
 
 public class ProductosDAO {
-    public static void insertarProducto(String nombre, String talla, String color, int stock, double precio, int idCategoria) {
-        String sql = "INSERT INTO productos (nombre, talla, color, stock, precio, idCategoria) VALUES (?, ?, ?, ?, ?, ?)";
+    public static void insertarProducto(String nombre, String talla, String color, int stock, double precio, int idCategoria,String descripcion) {
+        String sql = "INSERT INTO productos (nombre, talla, color, stock, precio, idCategoria, descripcion) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexion.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -20,6 +20,7 @@ public class ProductosDAO {
             stmt.setInt(4, stock);
             stmt.setDouble(5, precio);
             stmt.setInt(6, idCategoria);
+            stmt.setString(7, descripcion);
 
             int filas = stmt.executeUpdate();
             if (filas > 0) {
@@ -52,6 +53,7 @@ public class ProductosDAO {
                 System.out.println("Color: " + rs.getString("color"));
                 System.out.println("Stock: " + rs.getInt("stock"));
                 System.out.println("Precio: " + rs.getDouble("precio"));
+                System.out.println("Descripcion: " + rs.getString("descripcion"));
                 System.out.println("-------------");
             }
 
@@ -91,6 +93,7 @@ public class ProductosDAO {
                 System.out.println("Color: " + rs.getString("color"));
                 System.out.println("Stock: " + rs.getInt("stock"));
                 System.out.println("Precio: " + rs.getDouble("precio"));
+                System.out.println("Descripcion: " + rs.getString("descripcion"));
                 System.out.println("-------------");
             }
 
