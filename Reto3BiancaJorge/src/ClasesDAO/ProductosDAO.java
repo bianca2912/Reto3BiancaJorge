@@ -9,7 +9,7 @@ import Conexion.Conexion;
 
 public class ProductosDAO {
     public static void insertarProducto(String nombre, String talla, String color, int stock, double precio, int idCategoria) {
-        String sql = "INSERT INTO producto (nombre, talla, color, stock, precio, idCategoria) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO productos (nombre, talla, color, stock, precio, idCategoria) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Conexion.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
