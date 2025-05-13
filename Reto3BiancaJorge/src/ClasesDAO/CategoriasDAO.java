@@ -15,7 +15,7 @@ public class CategoriasDAO {
                 return;
             }
 
-            String sql = "INSERT INTO categoria (nombre) VALUES (?)";
+            String sql = "INSERT INTO categorias (nombre) VALUES (?)";
 
             try (Connection conn = Conexion.conectar();
                  PreparedStatement stmt = conn.prepareStatement(sql)) {
