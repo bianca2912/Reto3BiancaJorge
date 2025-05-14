@@ -1,5 +1,6 @@
 package ClasesDAO;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -134,8 +135,7 @@ public class ProductosDAO {
         } catch (SQLException e) {
             System.out.println("Error al buscar producto por nombre.");
             e.printStackTrace();
-        }
-
+        } 
         return producto;
     }
 }
