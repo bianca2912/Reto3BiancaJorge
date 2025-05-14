@@ -17,7 +17,7 @@ public class PedidosDAO {
             Connection conn = Conexion.conectar();
 
             // Insertar el pedido (tabla pedido)
-            String sqlPedido = "INSERT INTO pedido (idCliente, direccionEnvio, total, fecha) VALUES (?, ?, ?, NOW())";
+            String sqlPedido = "INSERT INTO pedidos (idCliente, direccionEnvio, precioTotal, fecha) VALUES (?, ?, ?, NOW())";
             PreparedStatement stmtPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
             stmtPedido.setInt(1, pedido.getIdCliente());
             stmtPedido.setString(2, pedido.getDireccionEnvio());
@@ -31,7 +31,7 @@ public class PedidosDAO {
             }
 
             // Insertar productos del pedido
-            String sqlDetalle = "INSERT INTO pedido_producto (idPedido, idProducto, cantidad, precioUnidad) VALUES (?, ?, ?, ?)";
+            String sqlDetalle = "INSERT INTO pedidoproducto (idPedido, idProducto, unidades, precio) VALUES (?, ?, ?, ?)";
             PreparedStatement stmtDetalle = conn.prepareStatement(sqlDetalle);
 
             for (ClasesPK.PedidoProducto pp : productos) {
@@ -42,7 +42,7 @@ public class PedidosDAO {
                 stmtDetalle.executeUpdate();
 
                 // Actualizar stock del producto
-                String sqlStock = "UPDATE producto SET stock = stock - ? WHERE id = ?";
+                String sqlStock = "UPDATE productos SET stock = stock - ? WHERE id = ?";
                 PreparedStatement stmtStock = conn.prepareStatement(sqlStock);
                 stmtStock.setInt(1, pp.getUnidades());
                 stmtStock.setInt(2, pp.getIdProducto());
