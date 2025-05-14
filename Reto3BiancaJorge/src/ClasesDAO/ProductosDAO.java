@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import ClasesPK.Productos;
 import Conexion.Conexion;
 
 public class ProductosDAO {
@@ -106,5 +107,35 @@ public class ProductosDAO {
             e.printStackTrace();
         }
     }
+    
+    public static Productos buscarProductoPorNombre(String nombre) {
+        Productos producto = null;
+        String sql = "SELECT * FROM productos WHERE nombre LIKE ? LIMIT 1";
 
+        try (Connection conn = Conexion.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, "%" + nombre + "%");
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                producto = new Productos(
+                    rs.getInt("id"),                   
+                    rs.getInt("idCategoria"),           
+                    rs.getString("nombre"),             
+                    rs.getDouble("precio"),            
+                    rs.getString("descripcion"),       
+                    rs.getString("color"),             
+                    rs.getString("talla"),            
+                    rs.getInt("stock")                
+                );
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al buscar producto por nombre.");
+            e.printStackTrace();
+        }
+
+        return producto;
+    }
 }
