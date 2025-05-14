@@ -17,7 +17,8 @@ public class PedidosDAO {
             Connection conn = Conexion.conectar();
 
             // Insertar el pedido (tabla pedido)
-            String sqlPedido = "INSERT INTO pedidos (idCliente, direccionEnvio, precioTotal, fecha) VALUES (?, ?, ?, NOW())";
+
+            String sqlPedido = "INSERT INTO pedidos (idCliente, direccionEnvio, preciototal, fecha) VALUES (?, ?, ?, NOW())";
             PreparedStatement stmtPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
             stmtPedido.setInt(1, pedido.getIdCliente());
             stmtPedido.setString(2, pedido.getDireccionEnvio());
