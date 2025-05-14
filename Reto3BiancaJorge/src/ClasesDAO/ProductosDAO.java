@@ -120,7 +120,7 @@ public class ProductosDAO {
 
             if (rs.next()) {
                 producto = new Productos(
-                    rs.getInt("id"),                   
+                    rs.getInt("idproducto"),                   
                     rs.getInt("idCategoria"),           
                     rs.getString("nombre"),             
                     rs.getDouble("precio"),            
