@@ -8,6 +8,7 @@ import ClasesDAO.PedidosDAO;
 import ClasesDAO.ProductosDAO;
 import ClasesPK.Categorias;
 import ClasesPK.Pedidos;
+import ClasesPK.Productos;
 
 public class Main {
 
@@ -26,10 +27,23 @@ public class Main {
 							submenu=FuncionesPK.Funciones.dimeEntero("Elige un submenu", sc);
 							switch (submenu) {
 							case 1:
-								System.out.println("submenu1");
+								System.out.println("Nueva categoria");
+							 	String n=sc.nextLine();
+								Categorias ca=new Categorias(n);
+								CategoriasDAO.insertarCategoria(ca);
 								break;
 							case 2:
-								System.out.println("submenu2");
+								System.out.println("nomb,precio,desc,color,talla,stock");
+								String nomb=sc.nextLine();
+								double precio=sc.nextDouble();
+								String desc=sc.nextLine();
+								String color=sc.nextLine();
+								String talla=sc.nextLine();
+								int stock=sc.nextInt();
+								
+								
+								Productos p=new Productos(nomb,precio,desc,color,talla,stock);
+								ProductosDAO.insertarProducto(p);
 								break;
 							case 3:
 								do {
@@ -151,25 +165,11 @@ public class Main {
 		} while (numero>0 && numero<5);	
 		
 	
-	 	System.out.println("Nueva categoria");
-	 	String n=sc.nextLine();
-		Categorias ca=new Categorias(n);
-		CategoriasDAO.insertarCategoria(ca);
+	 	
+
 
 		
-	/*	ProductosDao
-	 * 
-		System.out.println("nombre, talla, color, stock, precio, idCategoria,desc");
-		String nomb=sc.nextLine();
-		String talla=sc.nextLine();
-		String color=sc.nextLine();
-		int stock=sc.nextInt();
-		double precio=sc.nextDouble();
-		int id=sc.nextInt();
-		String desc=sc.nextLine();
-		ProductosDAO.insertarProducto(nomb, talla, color, stock, precio, id,desc);
-		//nombre, talla, color, stock, precio, idCategoria
-	 */
+		
 		
 	/*	ClientesDao
 	 * 
