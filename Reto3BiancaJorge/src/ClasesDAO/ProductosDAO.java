@@ -11,7 +11,7 @@ import Conexion.Conexion;
 
 public class ProductosDAO {
 	public static void insertarProducto(Productos producto) {
-	    String sql = "INSERT INTO producto (idCategoria, nombre, precio, descripcion, color, talla, stock) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	    String sql = "INSERT INTO productos (idCategoria, nombre, precio, descripcion, color, talla, stock) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 	    try (Connection conn = Conexion.conectar();
 	         PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -62,7 +62,7 @@ public class ProductosDAO {
 	        }
 
 	    } catch (SQLException e) {
-	        System.out.println("Error al listar productos por categor�a.");
+	        System.out.println("Error al listar productos por categoria.");
 	        e.printStackTrace();
 	    }
 	    return lista;
