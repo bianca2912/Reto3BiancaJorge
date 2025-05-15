@@ -13,13 +13,16 @@ import Conexion.Conexion;
 public class PedidosDAO {
 
     public static void crearPedido(Pedidos pedido, ArrayList<PedidoProducto> productos) {
+        Connection conn = null;
+        PreparedStatement stmtPedido = null;
+        PreparedStatement stmtDetalle = null;
+
         try {
-            Connection conn = Conexion.conectar();
+            conn = Conexion.conectar();
 
-            // Insertar el pedido (tabla pedido)
-
+            // Insertar pedido
             String sqlPedido = "INSERT INTO pedidos (idCliente, direccionEnvio, preciototal, fecha) VALUES (?, ?, ?, NOW())";
-            PreparedStatement stmtPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
+            stmtPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
             stmtPedido.setInt(1, pedido.getIdCliente());
             stmtPedido.setString(2, pedido.getDireccionEnvio());
             stmtPedido.setDouble(3, pedido.getPrecioTotal());
@@ -31,35 +34,38 @@ public class PedidosDAO {
                 idPedido = rs.getInt(1);
             }
 
-            // Insertar productos del pedido
+            // Insertar detalle del pedido
             String sqlDetalle = "INSERT INTO pedidoproducto (idPedido, idProducto, unidades, precio) VALUES (?, ?, ?, ?)";
-            PreparedStatement stmtDetalle = conn.prepareStatement(sqlDetalle);
+            stmtDetalle = conn.prepareStatement(sqlDetalle);
 
-            for (ClasesPK.PedidoProducto pp : productos) {
+            for (PedidoProducto pp : productos) {
                 stmtDetalle.setInt(1, idPedido);
                 stmtDetalle.setInt(2, pp.getIdProducto());
                 stmtDetalle.setInt(3, pp.getUnidades());
                 stmtDetalle.setDouble(4, pp.getPrecio());
                 stmtDetalle.executeUpdate();
 
-                // Actualizar stock del producto
+                // Actualizar stock
                 String sqlStock = "UPDATE productos SET stock = stock - ? WHERE id = ?";
-                PreparedStatement stmtStock = conn.prepareStatement(sqlStock);
-                stmtStock.setInt(1, pp.getUnidades());
-                stmtStock.setInt(2, pp.getIdProducto());
-                stmtStock.executeUpdate();
-                stmtStock.close();
+                try (PreparedStatement stmtStock = conn.prepareStatement(sqlStock)) {
+                    stmtStock.setInt(1, pp.getUnidades());
+                    stmtStock.setInt(2, pp.getIdProducto());
+                    stmtStock.executeUpdate();
+                }
             }
-
-            stmtDetalle.close();
-            stmtPedido.close();
-            conn.close();
-
-            System.out.println("Pedido guardado correctamente con total: " + pedido.getPrecioTotal() + "€");
 
         } catch (Exception e) {
             System.out.println("Error al guardar el pedido.");
             e.printStackTrace();
+
+        } finally {
+            try {
+                if (stmtDetalle != null) stmtDetalle.close();
+                if (stmtPedido != null) stmtPedido.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }
