@@ -62,7 +62,7 @@ public class ProductosDAO {
 	        }
 
 	    } catch (SQLException e) {
-	        System.out.println("Error al listar productos por categoría.");
+	        System.out.println("Error al listar productos por categorï¿½a.");
 	        e.printStackTrace();
 	    }
 	    return lista;
@@ -71,7 +71,7 @@ public class ProductosDAO {
 
 	public static ArrayList<Productos> buscarProductosConFiltros(String nombre, String talla, String color) {
 	    ArrayList<Productos> lista = new ArrayList<>();
-	    StringBuilder sql = new StringBuilder("SELECT * FROM producto WHERE 1=1");
+	    StringBuilder sql = new StringBuilder("SELECT * FROM productos WHERE 1=1");
 
 	    if (!nombre.isEmpty()) sql.append(" AND nombre LIKE ?");
 	    if (!talla.isEmpty()) sql.append(" AND talla = ?");
@@ -89,7 +89,7 @@ public class ProductosDAO {
 
 	        while (rs.next()) {
 	            Productos p = new Productos(
-	                rs.getInt("id"),
+	                rs.getInt("idProducto"),
 	                rs.getInt("idCategoria"),
 	                rs.getString("nombre"),
 	                rs.getDouble("precio"),
