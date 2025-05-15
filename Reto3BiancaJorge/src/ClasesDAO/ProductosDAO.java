@@ -4,24 +4,25 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import ClasesPK.Productos;
 import Conexion.Conexion;
 
 public class ProductosDAO {
-    public static void insertarProducto(String nombre, String talla, String color, int stock, double precio, int idCategoria,String descripcion) {
-        String sql = "INSERT INTO productos (nombre, talla, color, stock, precio, idCategoria, descripcion) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	public static void insertarProducto(Productos producto) {
+	    String sql = "INSERT INTO producto (idCategoria, nombre, precio, descripcion, color, talla, stock) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
-        try (Connection conn = Conexion.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+	    try (Connection conn = Conexion.conectar();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setString(1, nombre);
-            stmt.setString(2, talla);
-            stmt.setString(3, color);
-            stmt.setInt(4, stock);
-            stmt.setDouble(5, precio);
-            stmt.setInt(6, idCategoria);
-            stmt.setString(7, descripcion);
+	        stmt.setInt(1, producto.getIdCategoria());
+	        stmt.setString(2, producto.getNombre());
+	        stmt.setDouble(3, producto.getPrecio());
+	        stmt.setString(4, producto.getDescripcion());
+	        stmt.setString(5, producto.getColor());
+	        stmt.setString(6, producto.getTalla());
+	        stmt.setInt(7, producto.getStock());
 
             int filas = stmt.executeUpdate();
             if (filas > 0) {
@@ -36,77 +37,78 @@ public class ProductosDAO {
         }
     }
 
-    public static void listarPorCategoria(int idCategoria) {
-        String sql = "SELECT * FROM producto WHERE idCategoria = ?";
+	public static ArrayList<Productos> listarPorCategoria(int idCategoria) {
+	    ArrayList<Productos> lista = new ArrayList<>();
+	    String sql = "SELECT * FROM producto WHERE idCategoria = ?";
 
-        try (Connection conn = Conexion.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+	    try (Connection conn = Conexion.conectar();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, idCategoria);
-            ResultSet rs = stmt.executeQuery();
+	        stmt.setInt(1, idCategoria);
+	        ResultSet rs = stmt.executeQuery();
 
-            boolean hayResultados = false;
-            while (rs.next()) {
-                hayResultados = true;
-                System.out.println("ID: " + rs.getInt("id"));
-                System.out.println("Nombre: " + rs.getString("nombre"));
-                System.out.println("Talla: " + rs.getString("talla"));
-                System.out.println("Color: " + rs.getString("color"));
-                System.out.println("Stock: " + rs.getInt("stock"));
-                System.out.println("Precio: " + rs.getDouble("precio"));
-                System.out.println("Descripcion: " + rs.getString("descripcion"));
-                System.out.println("-------------");
-            }
+	        while (rs.next()) {
+	            Productos p = new Productos(
+	                rs.getInt("id"),
+	                rs.getInt("idCategoria"),
+	                rs.getString("nombre"),
+	                rs.getDouble("precio"),
+	                rs.getString("descripcion"),
+	                rs.getString("color"),
+	                rs.getString("talla"),
+	                rs.getInt("stock")
+	            );
+	            lista.add(p);
+	        }
 
-            if (!hayResultados) {
-                System.out.println("No hay productos en esta categoria.");
-            }
+	    } catch (SQLException e) {
+	        System.out.println("Error al listar productos por categoría.");
+	        e.printStackTrace();
+	    }
+	    return lista;
 
-        } catch (SQLException e) {
-            System.out.println("Error al listar productos.");
-            e.printStackTrace();
-        }
-    }
+	}
 
-    public static void buscarProductosConFiltros(String nombre, String talla, String color) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM producto WHERE 1=1");
+	public static ArrayList<Productos> buscarProductosConFiltros(String nombre, String talla, String color) {
+	    ArrayList<Productos> lista = new ArrayList<>();
+	    StringBuilder sql = new StringBuilder("SELECT * FROM producto WHERE 1=1");
 
-        if (!nombre.isEmpty()) sql.append(" AND nombre LIKE ?");
-        if (!talla.isEmpty()) sql.append(" AND talla = ?");
-        if (!color.isEmpty()) sql.append(" AND color = ?");
+	    if (!nombre.isEmpty()) sql.append(" AND nombre LIKE ?");
+	    if (!talla.isEmpty()) sql.append(" AND talla = ?");
+	    if (!color.isEmpty()) sql.append(" AND color = ?");
 
-        try (Connection conn = Conexion.conectar();
-             PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+	    try (Connection conn = Conexion.conectar();
+	         PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
 
-            int index = 1;
-            if (!nombre.isEmpty()) stmt.setString(index++, "%" + nombre + "%");
-            if (!talla.isEmpty()) stmt.setString(index++, talla);
-            if (!color.isEmpty()) stmt.setString(index++, color);
+	        int index = 1;
+	        if (!nombre.isEmpty()) stmt.setString(index++, "%" + nombre + "%");
+	        if (!talla.isEmpty()) stmt.setString(index++, talla);
+	        if (!color.isEmpty()) stmt.setString(index++, color);
 
-            ResultSet rs = stmt.executeQuery();
+	        ResultSet rs = stmt.executeQuery();
 
-            boolean hayResultados = false;
-            while (rs.next()) {
-                hayResultados = true;
-                System.out.println("ID: " + rs.getInt("id"));
-                System.out.println("Nombre: " + rs.getString("nombre"));
-                System.out.println("Talla: " + rs.getString("talla"));
-                System.out.println("Color: " + rs.getString("color"));
-                System.out.println("Stock: " + rs.getInt("stock"));
-                System.out.println("Precio: " + rs.getDouble("precio"));
-                System.out.println("Descripcion: " + rs.getString("descripcion"));
-                System.out.println("-------------");
-            }
+	        while (rs.next()) {
+	            Productos p = new Productos(
+	                rs.getInt("id"),
+	                rs.getInt("idCategoria"),
+	                rs.getString("nombre"),
+	                rs.getDouble("precio"),
+	                rs.getString("descripcion"),
+	                rs.getString("color"),
+	                rs.getString("talla"),
+	                rs.getInt("stock")
+	            );
+	            lista.add(p);
+	        }
 
-            if (!hayResultados) {
-                System.out.println("No se encontraron productos con esos filtros.");
-            }
+	    } catch (SQLException e) {
+	        System.out.println("Error al buscar productos con filtros.");
+	        e.printStackTrace();
+	    }
 
-        } catch (SQLException e) {
-            System.out.println("Error al buscar productos.");
-            e.printStackTrace();
-        }
-    }
+	    return lista;
+	}
+
     
     public static Productos buscarProductoPorNombre(String nombre) {
         Productos producto = null;
