@@ -11,7 +11,7 @@ import Conexion.Conexion;
 public class CategoriasDAO {
 
 	public static void insertarCategoria(Categorias categoria) {
-        String sql = "INSERT INTO categoria (nombre) VALUES (?)";
+        String sql = "INSERT INTO categorias (nombre) VALUES (?)";
 
         try (Connection conn = Conexion.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
