@@ -3,9 +3,8 @@ package ClasesPK;
 public class Categorias {
 	private int idCategoria;
 	private String nombre;
-	public Categorias(int idCategoria, String nombre) {
+	public Categorias(String nombre) {
 		super();
-		this.idCategoria = idCategoria;
 		this.nombre = nombre;
 	}
 	public int getIdCategoria() {

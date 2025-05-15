@@ -6,6 +6,7 @@ import ClasesDAO.CategoriasDAO;
 import ClasesDAO.ClientesDAO;
 import ClasesDAO.PedidosDAO;
 import ClasesDAO.ProductosDAO;
+import ClasesPK.Categorias;
 import ClasesPK.Pedidos;
 
 public class Main {
@@ -149,12 +150,12 @@ public class Main {
 			
 		} while (numero>0 && numero<5);	
 		
-	/*	CategoriasDao
-	 * 
+	
 	 	System.out.println("Nueva categoria");
-		String n=sc.nextLine();
-		CategoriasDAO.insertarCategoria(n);
-	*/
+	 	String n=sc.nextLine();
+		Categorias ca=new Categorias(n);
+		CategoriasDAO.insertarCategoria(ca);
+
 		
 	/*	ProductosDao
 	 * 
@@ -188,10 +189,17 @@ public class Main {
 		double precioTotal=sc.nextDouble();
 		PedidosDAO.crearPedido(null, null);
 	*/
-		/*
+	/*	
 		System.out.println("nombreProducto");
 		String nombreP=sc.nextLine();
 		ProductosDAO.buscarProductoPorNombre(nombreP);
+		*/
+	/*	
+		System.out.println("nombre, talla, color");
+		String nombreP=sc.nextLine();
+		String tallaP=sc.nextLine();
+		String colorP=sc.nextLine();
+		ProductosDAO.buscarProductosConFiltros(nombreP, tallaP, colorP);
 		*/
 	}
 	public static void menu() {
