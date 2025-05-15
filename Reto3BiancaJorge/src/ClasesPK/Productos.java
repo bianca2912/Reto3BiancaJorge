@@ -9,9 +9,10 @@ public class Productos {
 	private String color;
 	private String talla;
 	private int stock;
-	public Productos(String nombre, double precio, String descripcion, String color,
+	public Productos(int idCategoria,String nombre, double precio, String descripcion, String color,
 			String talla, int stock) {
 		super();
+		this.idCategoria=idCategoria;
 		this.nombre = nombre;
 		this.precio = precio;
 		this.descripcion = descripcion;

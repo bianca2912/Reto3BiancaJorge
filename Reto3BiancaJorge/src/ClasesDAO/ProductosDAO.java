@@ -49,6 +49,7 @@ public class ProductosDAO {
 
 	        while (rs.next()) {
 	            Productos p = new Productos(
+	            	rs.getInt("idCategoria"),
 	                rs.getString("nombre"),
 	                rs.getDouble("precio"),
 	                rs.getString("descripcion"),
@@ -87,6 +88,7 @@ public class ProductosDAO {
 
 	        while (rs.next()) {
 	            Productos p = new Productos(
+	            		rs.getInt("idCategoria"),
 	                rs.getString("nombre"),
 	                rs.getDouble("precio"),
 	                rs.getString("descripcion"),
@@ -117,7 +119,8 @@ public class ProductosDAO {
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
-                producto = new Productos(           
+                producto = new Productos(  
+                		rs.getInt("idCategoria"),
                     rs.getString("nombre"),             
                     rs.getDouble("precio"),            
                     rs.getString("descripcion"),       

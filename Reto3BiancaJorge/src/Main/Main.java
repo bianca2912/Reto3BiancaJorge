@@ -33,16 +33,17 @@ public class Main {
 								CategoriasDAO.insertarCategoria(ca);
 								break;
 							case 2:
-								System.out.println("nomb,precio,desc,color,talla,stock");
+								System.out.println("idC,nomb,precio,desc,color,talla,stock");
+								int idC=FuncionesPK.Funciones.dimeEntero("", sc);
 								String nomb=sc.nextLine();
-								double precio=sc.nextDouble();
+								double precio=FuncionesPK.Funciones.dimeDouble("", sc);
 								String desc=sc.nextLine();
 								String color=sc.nextLine();
 								String talla=sc.nextLine();
-								int stock=sc.nextInt();
+								int stock=FuncionesPK.Funciones.dimeEntero("", sc);
 								
 								
-								Productos p=new Productos(nomb,precio,desc,color,talla,stock);
+								Productos p=new Productos(idC,nomb,precio,desc,color,talla,stock);
 								ProductosDAO.insertarProducto(p);
 								break;
 							case 3:
