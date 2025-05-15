@@ -61,11 +61,8 @@ public class Main {
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
-					} while (numero>0 && numero<4);
-					
-					
-					
-					break;
+					} while (numero>0 && numero<4);					
+						break;
 				case 2:
 					do {
 						try {
@@ -191,10 +188,11 @@ public class Main {
 		double precioTotal=sc.nextDouble();
 		PedidosDAO.crearPedido(null, null);
 	*/
+		/*
 		System.out.println("nombreProducto");
 		String nombreP=sc.nextLine();
 		ProductosDAO.buscarProductoPorNombre(nombreP);
-		
+		*/
 	}
 	public static void menu() {
 		System.out.println("1. Mantenimientos \n2. Catalogo de Productos \n3. Pedidos \n4. Informes \n0. Salir");
