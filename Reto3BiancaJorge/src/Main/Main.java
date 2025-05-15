@@ -188,11 +188,17 @@ public class Main {
 		double precioTotal=sc.nextDouble();
 		PedidosDAO.crearPedido(null, null);
 	*/
-		/*
+	/*	
 		System.out.println("nombreProducto");
 		String nombreP=sc.nextLine();
 		ProductosDAO.buscarProductoPorNombre(nombreP);
 		*/
+		
+		System.out.println("nombre, talla, color");
+		String nombreP=sc.nextLine();
+		String tallaP=sc.nextLine();
+		String colorP=sc.nextLine();
+		ProductosDAO.buscarProductosConFiltros(nombreP, tallaP, colorP);
 	}
 	public static void menu() {
 		System.out.println("1. Mantenimientos \n2. Catalogo de Productos \n3. Pedidos \n4. Informes \n0. Salir");
