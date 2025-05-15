@@ -28,7 +28,7 @@ public class CategoriasDAO {
         } catch (SQLException e) {
             System.out.println("Error al insertar categoria.");
             e.printStackTrace();
-        }
+        }   
     }
 }
 
