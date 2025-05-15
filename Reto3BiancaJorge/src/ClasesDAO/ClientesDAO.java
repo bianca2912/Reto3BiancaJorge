@@ -68,4 +68,32 @@ public class ClientesDAO {
 	            e.printStackTrace();
 	        }
 	    }
+	    
+	    public static Clientes buscarClientePorCodigo(int codigo) {
+	        Clientes cliente = null;
+	        String sql = "SELECT * FROM clientes WHERE codigo = ?";
+
+	        try (Connection conn = Conexion.conectar();
+	             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	            stmt.setInt(1, codigo);
+	            ResultSet rs = stmt.executeQuery();
+
+	            if (rs.next()) {
+	                cliente = new Clientes(
+	                    rs.getInt("id"),
+	                    rs.getString("nombre"),
+	                    rs.getString("direccion"),
+	                    rs.getInt("codigo")
+	                );
+	            }
+
+	        } catch (SQLException e) {
+	            System.out.println("Error al buscar cliente por codigo.");
+	            e.printStackTrace();
+	        }
+
+	        return cliente;
+	    }
+
 	}
