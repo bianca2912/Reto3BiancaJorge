@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import ClasesPK.Clientes;
 import Conexion.Conexion;
@@ -70,8 +72,9 @@ public class ClientesDAO {
 	    }
 	    
 	    public static Clientes buscarClientePorCodigo(int codigo) {
-	        Clientes cliente = null;
-	        String sql = "SELECT * FROM clientes WHERE codigo = ?";
+	        Clientes c=null;
+
+	        String sql = "SELECT nombre,direccion,codigo FROM clientes WHERE codigo = ?";
 
 	        try (Connection conn = Conexion.conectar();
 	             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -80,11 +83,10 @@ public class ClientesDAO {
 	            ResultSet rs = stmt.executeQuery();
 
 	            if (rs.next()) {
-	                cliente = new Clientes(
+	                c=new Clientes(
 	                    rs.getString("nombre"),
 	                    rs.getString("direccion"),
-	                    rs.getInt("codigo")
-	                );
+	                    rs.getInt("codigo"));
 	            }
 
 	        } catch (SQLException e) {
@@ -92,7 +94,7 @@ public class ClientesDAO {
 	            e.printStackTrace();
 	        }
 
-	        return cliente;
+	        return c;
 	    }
 
 	}
