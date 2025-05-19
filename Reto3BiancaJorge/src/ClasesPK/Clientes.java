@@ -5,9 +5,8 @@ public class Clientes {
 	private String nombre;
 	private String direccion;
 	private int codigo;
-	public Clientes(int idCliente, String nombre, String direccion, int codigo) {
+	public Clientes(String nombre, String direccion, int codigo) {
 		super();
-		this.idCliente = idCliente;
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.codigo = codigo;
