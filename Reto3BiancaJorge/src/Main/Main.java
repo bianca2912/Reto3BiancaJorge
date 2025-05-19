@@ -46,7 +46,50 @@ public class Main {
 								ProductosDAO.insertarProducto(p);
 								break;
 							case 3:
+<<<<<<< HEAD
 								menugestionclientes(sc);
+=======
+								do {
+									try {
+										subMenu2Mantenimiento();
+										submenu2=FuncionesPK.Funciones.dimeEntero("Elige otro submenu", sc);
+										switch (submenu2) {
+										case 1:
+											System.out.println("nombre, direccion ");
+											String nombC=sc.nextLine();
+											String dirC=sc.nextLine();
+											int instC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
+											
+											Clientes c=new Clientes(nombC, dirC, instC);
+									
+											ClientesDAO.insertarCliente(c);
+											
+											break;
+										case 2:
+											
+											int codC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
+											
+										//	ClientesDAO.buscarClientePorCodigo(codC);
+											
+											if(ClientesDAO.buscarClientePorCodigo(codC)!=null) {
+												System.out.println(ClientesDAO.buscarClientePorCodigo(codC));
+												
+											}else {
+												System.out.println("No");
+											}
+											
+											break;
+
+										}
+										if (submenu2==0) {
+											System.out.println("Has salido del submenu");
+											break;
+										}
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+								} while (submenu>0 && submenu<3);
+>>>>>>> branch 'main' of https://github.com/bianca2912/Reto3BiancaJorge.git
 								break;
 							}
 						

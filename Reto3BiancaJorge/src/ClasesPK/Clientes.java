@@ -35,5 +35,11 @@ public class Clientes {
 	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
+	@Override
+	public String toString() {
+		return "Clientes [idCliente=" + idCliente + ", nombre=" + nombre + ", direccion=" + direccion + ", codigo="
+				+ codigo + "]";
+	}
+	
 	
 }
