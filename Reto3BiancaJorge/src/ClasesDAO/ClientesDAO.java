@@ -81,7 +81,6 @@ public class ClientesDAO {
 
 	            if (rs.next()) {
 	                cliente = new Clientes(
-	                    rs.getInt("id"),
 	                    rs.getString("nombre"),
 	                    rs.getString("direccion"),
 	                    rs.getInt("codigo")
