@@ -7,6 +7,7 @@ import ClasesDAO.ClientesDAO;
 import ClasesDAO.PedidosDAO;
 import ClasesDAO.ProductosDAO;
 import ClasesPK.Categorias;
+import ClasesPK.Clientes;
 import ClasesPK.Pedidos;
 import ClasesPK.Productos;
 
@@ -33,14 +34,15 @@ public class Main {
 								CategoriasDAO.insertarCategoria(ca);
 								break;
 							case 2:
-								System.out.println("idC,nomb,precio,desc,color,talla,stock");
-								int idC=FuncionesPK.Funciones.dimeEntero("", sc);
+								int idC=FuncionesPK.Funciones.dimeEntero("idC", sc);
+								System.out.println("nombCategoria");
 								String nomb=sc.nextLine();
-								double precio=FuncionesPK.Funciones.dimeDouble("", sc);
+								double precio=FuncionesPK.Funciones.dimeDouble("precio", sc);
+								System.out.println("desc,color,talla");
 								String desc=sc.nextLine();
 								String color=sc.nextLine();
 								String talla=sc.nextLine();
-								int stock=FuncionesPK.Funciones.dimeEntero("", sc);
+								int stock=FuncionesPK.Funciones.dimeEntero("stock", sc);
 								
 								
 								Productos p=new Productos(idC,nomb,precio,desc,color,talla,stock);
@@ -53,10 +55,19 @@ public class Main {
 										submenu2=FuncionesPK.Funciones.dimeEntero("Elige otro submenu", sc);
 										switch (submenu2) {
 										case 1:
-											System.out.println("submenu21");
+											System.out.println("nombre, direccion ");
+											String nombC=sc.nextLine();
+											String dirC=sc.nextLine();
+											int instC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
+											
+											Clientes c=new Clientes(nombC, dirC, instC);
+											ClientesDAO.insertarCliente(c);
 											break;
 										case 2:
-											System.out.println("submenu22");
+											
+											int codC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
+											
+											ClientesDAO.buscarClientePorCodigo(codC);
 											break;
 
 										}
