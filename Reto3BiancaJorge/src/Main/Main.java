@@ -61,13 +61,23 @@ public class Main {
 											int instC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
 											
 											Clientes c=new Clientes(nombC, dirC, instC);
+									
 											ClientesDAO.insertarCliente(c);
+											
 											break;
 										case 2:
 											
 											int codC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
 											
-											ClientesDAO.buscarClientePorCodigo(codC);
+										//	ClientesDAO.buscarClientePorCodigo(codC);
+											
+											if(ClientesDAO.buscarClientePorCodigo(codC)!=null) {
+												System.out.println(ClientesDAO.buscarClientePorCodigo(codC));
+												
+											}else {
+												System.out.println("No");
+											}
+											
 											break;
 
 										}
