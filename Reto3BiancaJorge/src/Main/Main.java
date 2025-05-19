@@ -143,6 +143,8 @@ public class Main {
 		ProductosDAO.buscarProductosConFiltros(nombreP, tallaP, colorP);
 		*/
 	}
+
+	/*
 	private static void menugestionclientes(Scanner sc) {
 		do {
 			
@@ -171,7 +173,7 @@ public class Main {
 			
 		
 		} while (submenu>0 && submenu<3);
-	}
+	} */
 	private static void menupedidos(Scanner sc) {
 		int submenu4;
 		do {
