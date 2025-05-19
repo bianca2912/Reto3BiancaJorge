@@ -1,4 +1,4 @@
-package Main;
+1package Main;
 
 import java.util.Scanner;
 
@@ -15,15 +15,12 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
-		int numero=0,submenu=0,submenu2=0,submenu3=0,submenu4=0,submenu5=0;
 		do {
-			try {
 				menu();
 				numero=FuncionesPK.Funciones.dimeEntero("Elige un menu", sc);
 				switch (numero) {
 				case 1:
 					do {
-						try {
 							subMenuMantenimiento();
 							submenu=FuncionesPK.Funciones.dimeEntero("Elige un submenu", sc);
 							switch (submenu) {
@@ -49,50 +46,14 @@ public class Main {
 								ProductosDAO.insertarProducto(p);
 								break;
 							case 3:
-								do {
-									try {
-										subMenu2Mantenimiento();
-										submenu2=FuncionesPK.Funciones.dimeEntero("Elige otro submenu", sc);
-										switch (submenu2) {
-										case 1:
-											System.out.println("nombre, direccion ");
-											String nombC=sc.nextLine();
-											String dirC=sc.nextLine();
-											int instC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
-											
-											Clientes c=new Clientes(nombC, dirC, instC);
-											ClientesDAO.insertarCliente(c);
-											break;
-										case 2:
-											
-											int codC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
-											
-											ClientesDAO.buscarClientePorCodigo(codC);
-											break;
-
-										}
-										if (submenu2==0) {
-											System.out.println("Has salido del submenu");
-											break;
-										}
-									} catch (Exception e) {
-										e.printStackTrace();
-									}
-								} while (submenu>0 && submenu<3);
+								menugestionclientes(sc);
 								break;
 							}
-							if (submenu==0) {
-								System.out.println("Has salido del submenu");
-								break;
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+						
 					} while (numero>0 && numero<4);					
 						break;
 				case 2:
 					do {
-						try {
 							subMenuProductos();
 							submenu3=FuncionesPK.Funciones.dimeEntero("Elige un submenu", sc);
 							switch (submenu3) {
@@ -104,37 +65,12 @@ public class Main {
 								break;
 
 							}
-							if (submenu3==0) {
-								System.out.println("Has salido del submenu");
-								break;
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
+							
+							
 					} while (submenu3>0 && submenu3<3);		
 					break;
 				case 3:
-					do {
-						try {
-							subMenuPedidos();
-							submenu4=FuncionesPK.Funciones.dimeEntero("Elige un submenu", sc);
-							switch (submenu4) {
-							case 1:
-								System.out.println("submenu333");
-								break;
-							case 2:
-								System.out.println("submenu334");
-								break;
-
-							}
-							if (submenu4==0) {
-								System.out.println("Has salido del submenu");
-								break;
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					} while (submenu4>0 && submenu4<3);	
+					menupedidos(sc);	
 					break;
 				case 4:
 					do {
@@ -163,17 +99,10 @@ public class Main {
 					} while (submenu5>0 && submenu5<4);	
 					break;
 				}
-				if (numero==0) {
-					System.out.println("Has salido del menu");
-					break;
-				}
 				errorMenu(numero);
-			} catch (Exception e) {
-				e.printStackTrace();
-				
-			}
+		
 			
-			
+
 		} while (numero>0 && numero<5);	
 		
 	
@@ -213,6 +142,57 @@ public class Main {
 		String colorP=sc.nextLine();
 		ProductosDAO.buscarProductosConFiltros(nombreP, tallaP, colorP);
 		*/
+	}
+	private static void menugestionclientes(Scanner sc) {
+		do {
+			
+				subMenu2Mantenimiento();
+				submenu2=FuncionesPK.Funciones.dimeEntero("Elige otro submenu", sc);
+				switch (submenu2) {
+				case 1:
+					System.out.println("nombre, direccion ");
+					String nombC=sc.nextLine();
+					String dirC=sc.nextLine();
+					int instC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
+					
+					Clientes c=new Clientes(nombC, dirC, instC);
+					ClientesDAO.insertarCliente(c);
+					break;
+				case 2:
+					
+					int codC=FuncionesPK.Funciones.dimeEntero("codigo", sc);
+					
+					ClientesDAO.buscarClientePorCodigo(codC);
+					break;
+					
+					
+
+				}
+			
+		
+		} while (submenu>0 && submenu<3);
+	}
+	private static void menupedidos(Scanner sc) {
+		int submenu4;
+		do {
+			
+				subMenuPedidos();
+				submenu4=FuncionesPK.Funciones.dimeEntero("Elige un submenu", sc);
+				switch (submenu4) {
+				case 1:
+					System.out.println("submenu333");
+					break;
+				case 2:
+					System.out.println("submenu334");
+					break;
+
+				}
+				if (submenu4==0) {
+					System.out.println("Has salido del submenu");
+					break;
+				}
+			
+		} while (submenu4>0 && submenu4<3);
 	}
 	public static void menu() {
 		System.out.println("1. Mantenimientos \n2. Catalogo de Productos \n3. Pedidos \n4. Informes \n0. Salir");
