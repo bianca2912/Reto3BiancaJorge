@@ -1,4 +1,4 @@
-1package Main;
+package Main;
 
 import java.util.Scanner;
 
@@ -15,7 +15,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		Scanner sc=new Scanner(System.in);
-		do {
+		/* do {
 				menu();
 				numero=FuncionesPK.Funciones.dimeEntero("Elige un menu", sc);
 				switch (numero) {
@@ -106,7 +106,7 @@ public class Main {
 		} while (numero>0 && numero<5);	
 		
 	
-	 	
+	 	*/
 
 
 		
