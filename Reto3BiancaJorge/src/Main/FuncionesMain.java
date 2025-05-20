@@ -63,7 +63,7 @@ public class FuncionesMain {
 	    int opcion = -1;
 
 	    while (opcion != 0) {
-	        System.out.println("\n GESTION DE CLIENTES  \n1.Alta de nuevo cliente \n2.Buscar cliente por codigo y modificar \n0. Atras");
+	        System.out.println("\n GESTION DE CLIENTES \n1.Alta de nuevo cliente \n2.Buscar cliente por codigo y modificar \n0. Atras");
 	        System.out.print("Opcion: ");
 	        opcion = dimeEntero(sc);
 
@@ -73,6 +73,7 @@ public class FuncionesMain {
 	                break;
 	            case 2:
 	                modificarClientePorCodigo(sc);
+	               
 	                break;
 	        }
 	    }
@@ -97,28 +98,25 @@ public class FuncionesMain {
 
 	    Clientes cliente = ClientesDAO.buscarClientePorCodigo(codigo);
 
-	    if (cliente == null) {
+	    if (cliente != null) {
+	    	 System.out.println("Cliente actual:");
+	  	    System.out.println("Nombre: " + cliente.getNombre());
+	  	    System.out.println("Dirección: " + cliente.getDireccion());
+	  	    System.out.println("Codigo: " + cliente.getCodigo());
+	    }else {
 	        System.out.println("No se encontro ningun cliente con ese codigo.");
-	        return;
+	    	System.out.print("Nuevo nombre: ");
+		    String nuevoNombre = sc.nextLine();
+		    System.out.print("Nueva dirección: ");
+		    String nuevaDireccion = sc.nextLine();
+		    System.out.print("Nuevo codigo: ");
+		    int nuevoCodigo = dimeEntero(sc);
+		    
+		    Clientes nuevo = new Clientes(nuevoNombre, nuevaDireccion, nuevoCodigo);
+		    ClientesDAO.insertarCliente(nuevo);
 	    }
-
-	    System.out.println("Cliente actual:");
-	    System.out.println("Nombre: " + cliente.getNombre());
-	    System.out.println("Dirección: " + cliente.getDireccion());
-	    System.out.println("Codigo: " + cliente.getCodigo());
-
-	    System.out.print("Nuevo nombre: ");
-	    String nuevoNombre = sc.nextLine();
-	    System.out.print("Nueva dirección: ");
-	    String nuevaDireccion = sc.nextLine();
-	    System.out.print("Nuevo codigo: ");
-	    int nuevoCodigo = dimeEntero(sc);
-
-	    cliente.setNombre(nuevoNombre);
-	    cliente.setDireccion(nuevaDireccion);
-	    cliente.setCodigo(nuevoCodigo);
-
-	    ClientesDAO.buscarYModificarCliente(cliente);
+ 
+	    
 	}
 	
 	public static int dimeEntero(Scanner sc) {
