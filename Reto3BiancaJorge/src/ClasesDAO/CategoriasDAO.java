@@ -2,7 +2,9 @@ package ClasesDAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import ClasesPK.Categorias;
@@ -30,5 +32,28 @@ public class CategoriasDAO {
             e.printStackTrace();
         }   
     }
+	
+	public static ArrayList<Categorias> listarCategorias() {
+	    ArrayList<Categorias> lista = new ArrayList<>();
+	    String sql = "SELECT * FROM categorias"; 
+	    try (Connection conn = Conexion.conectar();
+	         PreparedStatement stmt = conn.prepareStatement(sql);
+	         ResultSet rs = stmt.executeQuery()) {
+
+	        while (rs.next()) {
+	            Categorias c = new Categorias(
+	                rs.getString("nombre")
+	            );
+	            lista.add(c);
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("Error al listar categorías.");
+	        e.printStackTrace();
+	    }
+
+	    return lista;
+	}
+
 }
 
