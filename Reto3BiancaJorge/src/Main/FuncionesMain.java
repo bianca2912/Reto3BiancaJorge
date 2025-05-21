@@ -5,9 +5,12 @@ import java.util.Scanner;
 
 import ClasesDAO.CategoriasDAO;
 import ClasesDAO.ClientesDAO;
+import ClasesDAO.PedidosDAO;
 import ClasesDAO.ProductosDAO;
 import ClasesPK.Categorias;
 import ClasesPK.Clientes;
+import ClasesPK.PedidoProducto;
+import ClasesPK.Pedidos;
 import ClasesPK.Productos;
 
 public class FuncionesMain {
@@ -138,10 +141,7 @@ public class FuncionesMain {
 	    int opcion = -1;
 
 	    while (opcion != 0) {
-	        System.out.println("\nCATÁLOGO DE PRODUCTOS");
-	        System.out.println("1. Listar productos por categoria");
-	        System.out.println("2. Buscar productos por nombre, talla y color");
-	        System.out.println("0. Atras");
+	        System.out.println("\nCATALOGO DE PRODUCTOS  \n1. Listar productos por categoria \n2. Buscar productos por nombre, talla y color \n0. Atras");
 	        System.out.print("Elige opcion: ");
 	        opcion = dimeEntero(sc);
 
@@ -223,26 +223,110 @@ public class FuncionesMain {
 	        System.out.println("------------");
 	    }
 	}
+	
 	public static void menuPedidos(Scanner sc) {
 	    int opcion = -1;
 
 	    while (opcion != 0) {
-	        System.out.println("\n1. Crear Pedido \n2. Ver Pedidos \n0. Atras");
+	        System.out.println("MENU PEDIDOS \n1.Crear pedido \n2. Ver pedidos del mes actual \n0. Atras");
 	        System.out.print("Opcion: ");
 	        opcion = dimeEntero(sc);
 
 	        switch (opcion) {
 	            case 1:
-	               //funcion
+	                crearPedido(sc);
 	                break;
 	            case 2:
-	               //funcion
+	                verPedidosDelMes();
 	                break;
-	          
 	        }
 	    }
 	}
+
+
+	public static void crearPedido(Scanner sc) {
+	    Clientes cliente = null;
+
+	    do {
+	        System.out.print("Introduce el codigo del cliente: ");
+	        int codigo = dimeEntero(sc);
+	        cliente = ClientesDAO.buscarClientePorCodigo(codigo);
+
+	        if (cliente == null) {
+	            System.out.println("No se encontro ningun cliente con ese codigo.");
+	        }
+	    } while (cliente == null);
+
+	    System.out.println("Cliente encontrado: " + cliente.getNombre());
+
+	    ArrayList<PedidoProducto> productos = new ArrayList<>();
+	    double total = 0;
+
+	    while (true) {
+	        System.out.print("Introduce el nombre del producto (o escribe 'fin' para terminar): ");
+	        String nombre = sc.nextLine();
+	        if (nombre.equalsIgnoreCase("fin")) break;
+
+	        Productos producto = ProductosDAO.buscarProductoPorNombre(nombre);
+
+	        if (producto == null) {
+	            System.out.println("Producto no encontrado.");
+	            continue;
+	        }
+
+	        System.out.println("Producto: " + producto.getNombre() + " - Stock: " + producto.getStock());
+	        System.out.print("¿Cuantas unidades deseas?: ");
+	        int unidades = dimeEntero(sc);
+
+	        int unidadesFinales = Math.min(unidades, producto.getStock());
+
+	        if (unidadesFinales <= 0) {
+	            System.out.println("No hay stock disponible.");
+	        } else {
+	        	PedidoProducto pp = new PedidoProducto(producto.getIdProducto(), unidadesFinales, producto.getPrecio());
+	            productos.add(pp);
+	            total += unidadesFinales * producto.getPrecio();
+	            System.out.println("Producto anadido al pedido.");
+	        }
+	    }
+
+	    if (productos.isEmpty()) {
+	        System.out.println("No se anaadieron productos. Pedido cancelado.");
+	        return;
+	    }
+
+	    String direccionEnvio = cliente.getDireccion();
+	    System.out.println("Direccion del cliente: " + direccionEnvio);
+	    System.out.print("¿Usar esta direccion? (s/n): ");
+	    String respuesta = sc.nextLine();
+
+	    if (respuesta.equalsIgnoreCase("n")) {
+	        System.out.print("Introduce nueva direccion de envio: ");
+	        direccionEnvio = sc.nextLine();
+	    }
+
+	    Pedidos pedido = new Pedidos(0, cliente.getIdCliente(), total, direccionEnvio, null);
+	    PedidosDAO.crearPedido(pedido, productos);
+
+	    System.out.println("Pedido guardado.");
+	    System.out.println("Precio total: " + total + " €");
+	}
+
 	
+	public static void verPedidosDelMes() {
+	    ArrayList<String> pedidos = PedidosDAO.verPedidosDelMes();
+
+	    if (pedidos.isEmpty()) {
+	        System.out.println("No hay pedidos este mes.");
+	    } else {
+	        for (String p : pedidos) {
+	            System.out.println(p);
+	            System.out.println("------------");
+	        }
+	    }
+	}
+
+
 
 		
 }
