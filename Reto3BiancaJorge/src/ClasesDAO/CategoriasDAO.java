@@ -54,6 +54,29 @@ public class CategoriasDAO {
 
 	    return lista;
 	}
+	
+	public static Categorias buscarCategoriaPorId(int id) {
+	    Categorias categoria = null;
+	    String sql = "SELECT * FROM categorias WHERE id = ?";
+
+	    try (Connection conn = Conexion.conectar();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+	        stmt.setInt(1, id);
+	        ResultSet rs = stmt.executeQuery();
+
+	        if (rs.next()) {
+	            categoria = new Categorias(rs.getString("nombre"));
+	        }
+
+	    } catch (SQLException e) {
+	        System.out.println("Error al buscar categoria.");
+	        e.printStackTrace();
+	    }
+
+	    return categoria;
+	}
+
 
 }
 

@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import ClasesDAO.CategoriasDAO;
@@ -107,7 +108,7 @@ public class FuncionesMain {
 	        System.out.println("No se encontro ningun cliente con ese codigo.");
 	    	System.out.print("Nuevo nombre: ");
 		    String nuevoNombre = sc.nextLine();
-		    System.out.print("Nueva dirección: ");
+		    System.out.print("Nueva direccion: ");
 		    String nuevaDireccion = sc.nextLine();
 		    System.out.print("Nuevo codigo: ");
 		    int nuevoCodigo = dimeEntero(sc);
@@ -133,6 +134,95 @@ public class FuncionesMain {
 	    return num;
 	}
 
+	public static void menuCatalogo(Scanner sc) {
+	    int opcion = -1;
+
+	    while (opcion != 0) {
+	        System.out.println("\nCATÁLOGO DE PRODUCTOS");
+	        System.out.println("1. Listar productos por categoria");
+	        System.out.println("2. Buscar productos por nombre, talla y color");
+	        System.out.println("0. Atras");
+	        System.out.print("Elige opcion: ");
+	        opcion = dimeEntero(sc);
+
+	        switch (opcion) {
+	            case 1:
+	                listarProductosPorCategoria(sc);
+	                break;
+	            case 2:
+	                buscarProductosPorFiltros(sc);
+	                break;
+	        }
+	    }
+	}
+	
+	
+	public static void listarProductosPorCategoria(Scanner sc) {
+	    ArrayList<Categorias> categorias = CategoriasDAO.listarCategorias();
+
+	    if (categorias.isEmpty()) {
+	        System.out.println("No hay categorias registradas.");
+	        return;
+	    }
+
+	    System.out.println("Categorias disponibles:");
+	    for (Categorias c : categorias) {
+	        System.out.println(c.getIdCategoria() + " - " + c.getNombre());
+	    }
+
+	    System.out.print("Introduce el ID de la categoria: ");
+	    int idCategoria = dimeEntero(sc);
+
+	    ArrayList<Productos> productos = ProductosDAO.listarPorCategoria(idCategoria);
+
+	    if (productos.isEmpty()) {
+	        System.out.println("No hay productos en esta categoria.");
+	        return;
+	    }
+
+	    System.out.println("\nProductos de la categoria:");
+	    for (Productos p : productos) {
+	        System.out.println("Nombre: " + p.getNombre());
+	        System.out.println("Precio: " + p.getPrecio());
+	        System.out.println("Descripcion: " + p.getDescripcion());
+	        System.out.println("Color: " + p.getColor());
+	        System.out.println("Talla: " + p.getTalla());
+	        System.out.println("Stock: " + p.getStock());
+	        System.out.println("------------");
+	    }
+	}
+
+
+	public static void buscarProductosPorFiltros(Scanner sc) {
+	    System.out.print("Nombre (puede dejarse vacio): ");
+	    String nombre = sc.nextLine();
+	    System.out.print("Talla (puede dejarse vacia): ");
+	    String talla = sc.nextLine();
+	    System.out.print("Color (puede dejarse vacio): ");
+	    String color = sc.nextLine();
+
+	    ArrayList<Productos> productos = ProductosDAO.buscarProductosConFiltros(nombre, talla, color);
+
+	    if (productos.isEmpty()) {
+	        System.out.println("No se encontraron productos con esos filtros.");
+	        return;
+	    }
+
+	    for (Productos p : productos) {
+	        System.out.println("Nombre: " + p.getNombre());
+	        System.out.println("Precio: " + p.getPrecio());
+	        System.out.println("Descripcion: " + p.getDescripcion());
+	        System.out.println("Color: " + p.getColor());
+	        System.out.println("Talla: " + p.getTalla());
+	        System.out.println("Stock: " + p.getStock());
+
+	        Categorias cat = CategoriasDAO.buscarCategoriaPorId(p.getIdCategoria());
+	        if (cat != null) {
+	            System.out.println("Categoría: " + cat.getNombre());
+	        }
+	        System.out.println("------------");
+	    }
+	}
 
 		
 }
