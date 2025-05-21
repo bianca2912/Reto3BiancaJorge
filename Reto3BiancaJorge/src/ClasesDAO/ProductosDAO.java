@@ -70,22 +70,34 @@ public class ProductosDAO {
 
 	public static ArrayList<Productos> buscarProductosConFiltros(String nombre, String talla, String color) {
 	    ArrayList<Productos> lista = new ArrayList<>();
-	    StringBuilder sql = new StringBuilder("SELECT * FROM productos WHERE 1=1");
+	    String sql = "SELECT * FROM productos WHERE 1=1";
 
-	    if (!nombre.isEmpty()) sql.append(" AND nombre LIKE ?");
-	    if (!talla.isEmpty()) sql.append(" AND talla = ?");
-	    if (!color.isEmpty()) sql.append(" AND color = ?");
+	    if (!nombre.isEmpty()) {
+	        sql += " AND nombre LIKE ?";
+	    }
+	    if (!talla.isEmpty()) {
+	        sql += " AND talla = ?";
+	    }
+	    if (!color.isEmpty()) {
+	        sql += " AND color = ?";
+	    }
 
 	    try (Connection conn = Conexion.conectar();
-	         PreparedStatement stmt = conn.prepareStatement(sql.toString())) {
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
 	        int index = 1;
-	        if (!nombre.isEmpty()) stmt.setString(index++, "%" + nombre + "%");
-	        if (!talla.isEmpty()) stmt.setString(index++, talla);
-	        if (!color.isEmpty()) stmt.setString(index++, color);
+	        if (!nombre.isEmpty()) {
+	            stmt.setString(index++, "%" + nombre + "%");
+	        }
+	        if (!talla.isEmpty()) {
+	            stmt.setString(index++, talla);
+	        }
+	        if (!color.isEmpty()) {
+	            stmt.setString(index++, color);
+	        }
 
 	        ResultSet rs = stmt.executeQuery();
-
+	        
 	        while (rs.next()) {
 	            Productos p = new Productos(
 	            	rs.getInt("idCategoria"),
