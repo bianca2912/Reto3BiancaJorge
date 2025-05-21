@@ -223,6 +223,26 @@ public class FuncionesMain {
 	        System.out.println("------------");
 	    }
 	}
+	public static void menuPedidos(Scanner sc) {
+	    int opcion = -1;
+
+	    while (opcion != 0) {
+	        System.out.println("\n1. Crear Pedido \n2. Ver Pedidos \n0. Atras");
+	        System.out.print("Opcion: ");
+	        opcion = dimeEntero(sc);
+
+	        switch (opcion) {
+	            case 1:
+	               //funcion
+	                break;
+	            case 2:
+	               //funcion
+	                break;
+	          
+	        }
+	    }
+	}
+	
 
 		
 }
