@@ -57,7 +57,7 @@ public class CategoriasDAO {
 	
 	public static Categorias buscarCategoriaPorId(int id) {
 	    Categorias categoria = null;
-	    String sql = "SELECT * FROM categorias WHERE id = ?";
+	    String sql = "SELECT * FROM categorias WHERE idCategoria = ?";
 
 	    try (Connection conn = Conexion.conectar();
 	         PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -66,7 +66,7 @@ public class CategoriasDAO {
 	        ResultSet rs = stmt.executeQuery();
 
 	        if (rs.next()) {
-	            categoria = new Categorias(rs.getString("nombre"));
+	        	categoria = new Categorias(rs.getString("nombre"));
 	        }
 
 	    } catch (SQLException e) {
