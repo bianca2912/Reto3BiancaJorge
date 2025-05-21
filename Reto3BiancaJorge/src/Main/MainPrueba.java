@@ -8,7 +8,7 @@ public class MainPrueba {
 	    boolean salir = false;
 
 	    while (!salir) {
-	        System.out.println("MENÚ PRINCIPAL \n1. Mantenimientos \n2. Catalogo de Productos \n0. Salir");
+	        System.out.println("MENÚ PRINCIPAL \n1. Mantenimientos \n2. Catalogo de Productos \n3. Pedidos \n4. Informes \n0. Salir");
 	        System.out.print("Elige una opción: ");
 	        int numero = FuncionesMain.dimeEntero(sc);
 
@@ -18,6 +18,12 @@ public class MainPrueba {
 	                break;
 	            case 2:
 	                FuncionesMain.menuCatalogo(sc);
+	                break;
+	            case 3:
+	            	System.out.println("3");
+	                break;
+	            case 4:
+	            	System.out.println("4");
 	                break;
 	            case 0:
 	                salir = true;
