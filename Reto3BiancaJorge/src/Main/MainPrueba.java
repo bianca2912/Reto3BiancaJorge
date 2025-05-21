@@ -20,7 +20,7 @@ public class MainPrueba {
 	                FuncionesMain.menuCatalogo(sc);
 	                break;
 	            case 3:
-	            	System.out.println("3");
+	            	FuncionesMain.menuPedidos(sc);
 	                break;
 	            case 4:
 	            	System.out.println("4");
