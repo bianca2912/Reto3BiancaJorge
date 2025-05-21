@@ -88,7 +88,7 @@ public class ProductosDAO {
 
 	        while (rs.next()) {
 	            Productos p = new Productos(
-	            		rs.getInt("idCategoria"),
+	            	rs.getInt("idCategoria"),
 	                rs.getString("nombre"),
 	                rs.getDouble("precio"),
 	                rs.getString("descripcion"),
