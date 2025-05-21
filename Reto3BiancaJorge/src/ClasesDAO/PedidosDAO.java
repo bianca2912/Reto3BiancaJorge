@@ -3,6 +3,7 @@ package ClasesDAO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -68,4 +69,62 @@ public class PedidosDAO {
             }
         }
     }
+    
+
+    
+    public static ArrayList<String> verPedidosDelMes() {
+        ArrayList<String> lista = new ArrayList<>();
+        String sql = """
+            SELECT p.fecha, c.nombre AS cliente, p.preciototal, p.direccionEnvio,
+                   cat.nombre AS categoria, prod.nombre AS producto, pp.unidades
+            FROM pedidos p
+            JOIN clientes c ON p.idCliente = c.id
+            JOIN pedidoproducto pp ON pp.idPedido = p.id
+            JOIN productos prod ON prod.idproducto = pp.idProducto
+            JOIN categorias cat ON cat.idCategoria = prod.idCategoria
+            WHERE MONTH(p.fecha) = MONTH(CURDATE()) AND YEAR(p.fecha) = YEAR(CURDATE())
+            ORDER BY p.fecha DESC
+        """;
+
+        try (Connection conn = Conexion.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            int ultimoPedido = -1;
+            StringBuilder sb = new StringBuilder();
+
+            while (rs.next()) {
+                int pedidoId = rs.getRow(); 
+
+                if (pedidoId != ultimoPedido) {
+                    if (sb.length() > 0) {
+                        lista.add(sb.toString());
+                        sb = new StringBuilder();
+                    }
+                    sb.append("Fecha: ").append(rs.getString("fecha")).append("\n");
+                    sb.append("Cliente: ").append(rs.getString("cliente")).append("\n");
+                    sb.append("Precio total: ").append(rs.getDouble("preciototal")).append(" €\n");
+                    sb.append("Direccion envio: ").append(rs.getString("direccionEnvio")).append("\n");
+                }
+
+                sb.append("- Producto: ").append(rs.getString("producto"));
+                sb.append(" | Categoria: ").append(rs.getString("categoria"));
+                sb.append(" | Unidades: ").append(rs.getInt("unidades")).append("\n");
+
+                ultimoPedido = pedidoId;
+            }
+
+            if (sb.length() > 0) {
+                lista.add(sb.toString());
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Error al consultar pedidos del mes.");
+            e.printStackTrace();
+        }
+
+        return lista;
+    }
+
+
 }
