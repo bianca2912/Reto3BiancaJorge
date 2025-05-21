@@ -74,48 +74,48 @@ public class PedidosDAO {
     
     public static ArrayList<String> verPedidosDelMes() {
         ArrayList<String> lista = new ArrayList<>();
-        String sql = """
-            SELECT p.fecha, c.nombre AS cliente, p.preciototal, p.direccionEnvio,
-                   cat.nombre AS categoria, prod.nombre AS producto, pp.unidades
-            FROM pedidos p
-            JOIN clientes c ON p.idCliente = c.id
-            JOIN pedidoproducto pp ON pp.idPedido = p.id
-            JOIN productos prod ON prod.idproducto = pp.idProducto
-            JOIN categorias cat ON cat.idCategoria = prod.idCategoria
-            WHERE MONTH(p.fecha) = MONTH(CURDATE()) AND YEAR(p.fecha) = YEAR(CURDATE())
-            ORDER BY p.fecha DESC
-        """;
+        String sql =
+            "SELECT p.id, p.fecha, c.nombre AS cliente, p.preciototal, p.direccionEnvio, " +
+            "cat.nombre AS categoria, prod.nombre AS producto, pp.unidades " +
+            "FROM pedidos p " +
+            "JOIN clientes c ON p.idCliente = c.id " +
+            "JOIN pedidoproducto pp ON pp.idPedido = p.id " +
+            "JOIN productos prod ON prod.idproducto = pp.idProducto " +
+            "JOIN categorias cat ON cat.idCategoria = prod.idCategoria " +
+            "WHERE MONTH(p.fecha) = MONTH(CURDATE()) AND YEAR(p.fecha) = YEAR(CURDATE()) " +
+            "ORDER BY p.fecha DESC";
 
         try (Connection conn = Conexion.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
             int ultimoPedido = -1;
-            StringBuilder sb = new StringBuilder();
+            String infoPedido = "";
 
             while (rs.next()) {
-                int pedidoId = rs.getRow(); 
+                int pedidoId = rs.getInt("id");
 
                 if (pedidoId != ultimoPedido) {
-                    if (sb.length() > 0) {
-                        lista.add(sb.toString());
-                        sb = new StringBuilder();
+                    if (!infoPedido.isEmpty()) {
+                        lista.add(infoPedido);
+                        infoPedido = "";
                     }
-                    sb.append("Fecha: ").append(rs.getString("fecha")).append("\n");
-                    sb.append("Cliente: ").append(rs.getString("cliente")).append("\n");
-                    sb.append("Precio total: ").append(rs.getDouble("preciototal")).append(" €\n");
-                    sb.append("Direccion envio: ").append(rs.getString("direccionEnvio")).append("\n");
+
+                    infoPedido += "Fecha: " + rs.getString("fecha") + "\n";
+                    infoPedido += "Cliente: " + rs.getString("cliente") + "\n";
+                    infoPedido += "Precio total: " + rs.getDouble("preciototal") + " €\n";
+                    infoPedido += "Direccion envio: " + rs.getString("direccionEnvio") + "\n";
                 }
 
-                sb.append("- Producto: ").append(rs.getString("producto"));
-                sb.append(" | Categoria: ").append(rs.getString("categoria"));
-                sb.append(" | Unidades: ").append(rs.getInt("unidades")).append("\n");
+                infoPedido += "- Producto: " + rs.getString("producto");
+                infoPedido += " | Categoria: " + rs.getString("categoria");
+                infoPedido += " | Unidades: " + rs.getInt("unidades") + "\n";
 
                 ultimoPedido = pedidoId;
             }
 
-            if (sb.length() > 0) {
-                lista.add(sb.toString());
+            if (!infoPedido.isEmpty()) {
+                lista.add(infoPedido);
             }
 
         } catch (SQLException e) {
@@ -125,6 +125,5 @@ public class PedidosDAO {
 
         return lista;
     }
-
 
 }
