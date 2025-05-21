@@ -13,7 +13,7 @@ import Conexion.Conexion;
 
 public class PedidosDAO {
 
-    public static void crearPedido(Pedidos pedido, ArrayList<PedidoProducto> productos) {
+    public static Pedidos crearPedido(Pedidos pedido, ArrayList<PedidoProducto> productos) {
         Connection conn = null;
         PreparedStatement stmtPedido = null;
         PreparedStatement stmtDetalle = null;
@@ -22,18 +22,19 @@ public class PedidosDAO {
             conn = Conexion.conectar();
 
             // Insertar pedido
-            String sqlPedido = "INSERT INTO pedidos (idCliente, direccionEnvio, preciototal, fecha) VALUES (?, ?, ?, NOW())";
+            String sqlPedido = "INSERT INTO pedidos (idCliente, preciototal,direccionEnvio,  fecha) VALUES (?, ?, ?, NOW())";
             stmtPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
             stmtPedido.setInt(1, pedido.getIdCliente());
-            stmtPedido.setString(2, pedido.getDireccionEnvio());
-            stmtPedido.setDouble(3, pedido.getPrecioTotal());
+            stmtPedido.setDouble(2, pedido.getPrecioTotal());
+            stmtPedido.setString(3, pedido.getDireccionEnvio());            
             stmtPedido.executeUpdate();
 
             ResultSet rs = stmtPedido.getGeneratedKeys();
             int idPedido = -1;
             if (rs.next()) {
-                idPedido = rs.getInt(1);
+                pedido.setIdPedido( rs.getInt(1));
             }
+            return pedido;
 
             // Insertar detalle del pedido
             String sqlDetalle = "INSERT INTO pedidoproducto (idPedido, idProducto, unidades, precio) VALUES (?, ?, ?, ?)";
