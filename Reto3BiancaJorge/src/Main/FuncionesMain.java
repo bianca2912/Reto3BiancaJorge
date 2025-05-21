@@ -228,7 +228,7 @@ public class FuncionesMain {
 	    int opcion = -1;
 
 	    while (opcion != 0) {
-	        System.out.println("MENU PEDIDOS \n1.Crear pedido \n2. Ver pedidos del mes actual \n0. Atras");
+	        System.out.println("MENU PEDIDOS \n1. Crear pedido \n2. Ver pedidos del mes actual \n0. Atras");
 	        System.out.print("Opcion: ");
 	        opcion = dimeEntero(sc);
 
