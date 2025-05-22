@@ -60,16 +60,13 @@ public class PedidosDAO {
 
     public static ArrayList<String> verPedidosDelMes() {
         ArrayList<String> lista = new ArrayList<>();
-        String sql =
-            "SELECT p.id, p.fecha, c.nombre AS cliente, p.preciototal, p.direccionEnvio, " +
-            "cat.nombre AS categoria, prod.nombre AS producto, pp.unidades " +
-            "FROM pedidos p " +
-            "JOIN clientes c ON p.idcliente = c.idcliente " +
-            "JOIN pedidoproducto pp ON pp.idPedido = p.id " +
-            "JOIN productos prod ON prod.idproducto = pp.idProducto " +
-            "JOIN categorias cat ON cat.idCategoria = prod.idCategoria " +
-            "WHERE MONTH(p.fecha) = MONTH(CURDATE()) AND YEAR(p.fecha) = YEAR(CURDATE()) " +
-            "ORDER BY p.fecha DESC";
+        String sql ="SELECT p.idpedido, p.fecha, c.nombre,p.direccionEnvio,cat.nombre FROM pedidos p \r\n"
+        		+ "	JOIN clientes c ON c.idcliente=p.idcliente\r\n"
+        		+ "	JOIN pedidoproducto pp ON pp.idPedido = p.idpedido\r\n"
+        		+ "	JOIN productos prod ON prod.idproducto = pp.idProducto \r\n"
+        		+ "	JOIN categorias cat ON cat.idCategoria = prod.idCategoria\r\n"
+        		+ "	WHERE MONTH(p.fecha) = MONTH(CURDATE()) AND YEAR(p.fecha) = YEAR(CURDATE()) \r\n"
+        		+ "	ORDER BY p.fecha DESC";
 
         try (Connection conn = Conexion.conectar();
              PreparedStatement stmt = conn.prepareStatement(sql);
