@@ -39,7 +39,7 @@ public class ProductosDAO {
 
 	public static ArrayList<Productos> listarPorCategoria(int idCategoria) {
 	    ArrayList<Productos> lista = new ArrayList<>();
-	    String sql = "SELECT * FROM producto WHERE idCategoria = ?";
+	    String sql = "SELECT * FROM productos WHERE idCategoria = ?";
 
 	    try (Connection conn = Conexion.conectar();
 	         PreparedStatement stmt = conn.prepareStatement(sql)) {
