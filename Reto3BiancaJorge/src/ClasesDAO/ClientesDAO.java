@@ -73,7 +73,7 @@ public class ClientesDAO {
 
 	    public static Clientes buscarClientePorCodigo(int codigo) {
 	        Clientes cliente = null;
-	        String sql = "SELECT * FROM clientes WHERE codigo = ?";
+	        String sql = "SELECT nombre,direccion,codigo FROM clientes WHERE codigo = ?";
 
 	        try (Connection conn = Conexion.conectar();
 	             PreparedStatement stmt = conn.prepareStatement(sql)) {
