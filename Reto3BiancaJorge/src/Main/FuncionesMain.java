@@ -262,7 +262,7 @@ public class FuncionesMain {
 	    ArrayList<PedidoProducto> productos = new ArrayList<>();
 	    double total = 0;
 
-	    while (true) {
+	    while (true) { 
 	        System.out.print("Introduce el nombre del producto (o escribe 'fin' para terminar): ");
 	        String nombre = sc.nextLine();
 	        if (nombre.equalsIgnoreCase("fin")) break;

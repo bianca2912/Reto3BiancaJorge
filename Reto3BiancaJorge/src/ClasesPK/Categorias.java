@@ -24,7 +24,7 @@ public class Categorias {
 	 * 
 	 * @return idCategoria
 	 */
-	public int getIdCategoria() {
+	public int getIdCategoria() { 
 		return idCategoria;
 	}
 
