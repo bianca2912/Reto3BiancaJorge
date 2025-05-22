@@ -9,6 +9,7 @@ import ClasesDAO.PedidosDAO;
 import ClasesDAO.ProductosDAO;
 import ClasesPK.Categorias;
 import ClasesPK.Clientes;
+import ClasesPK.DetallePedido;
 import ClasesPK.PedidoProducto;
 import ClasesPK.Pedidos;
 import ClasesPK.Productos;
@@ -327,6 +328,25 @@ public class FuncionesMain {
 	}
 
 
+	public static void menuInformes(Scanner sc) {
+	    int opcion = -1;
+
+	    while (opcion != 0) {
+	        System.out.println("\nMENÚ INFORMES");
+	        System.out.println("1. Bajo stock");
+	        System.out.println("2. Pedidos por cliente");
+	        System.out.println("3. Producto/s más vendido");
+	        System.out.println("0. Volver");
+	        System.out.print("Elige opción: ");
+	        opcion = dimeEntero(sc);
+
+	        
+	    }
+	}
+
+	
+
+	
 
 		
 }

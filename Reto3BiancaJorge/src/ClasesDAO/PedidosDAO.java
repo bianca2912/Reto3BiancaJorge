@@ -13,59 +13,58 @@ import Conexion.Conexion;
 
 public class PedidosDAO {
 
-	public static void crearPedido(Pedidos pedido, ArrayList<PedidoProducto> productos) {
-	    Connection conn = null;
-	    PreparedStatement stmtPedido = null;
-	    PreparedStatement stmtDetalle = null;
+    public static void crearPedido(Pedidos pedido, ArrayList<PedidoProducto> productos) {
+        Connection conn = null;
+        PreparedStatement stmtPedido = null;
 
-	    try {
-	        conn = Conexion.conectar();
+        try {
+            conn = Conexion.conectar();
 
-	        String sqlPedido = "INSERT INTO pedidos (idCliente, preciototal, direccionEnvio, fecha) VALUES (?, ?, ?, NOW())";
-	        stmtPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
-	        stmtPedido.setInt(1, pedido.getIdCliente());
-	        stmtPedido.setDouble(2, pedido.getPrecioTotal());
-	        stmtPedido.setString(3, pedido.getDireccionEnvio());
-	        stmtPedido.executeUpdate();
+            // Imprimir ID cliente para depuración
+            System.out.println("ID cliente usado para el pedido: " + pedido.getIdCliente());
 
-	        ResultSet rs = stmtPedido.getGeneratedKeys();
-	        int idPedido = -1;
-	        if (rs.next()) {
-	            idPedido = rs.getInt(1);
-	            pedido.setIdPedido(idPedido);
-	        }
+            // Insertar pedido
+            String sqlPedido = "INSERT INTO pedidos (idcliente, preciototal, direccionEnvio, fecha) VALUES (?, ?, ?, NOW())";
+            stmtPedido = conn.prepareStatement(sqlPedido, Statement.RETURN_GENERATED_KEYS);
+            stmtPedido.setInt(1, pedido.getIdCliente());
+            stmtPedido.setDouble(2, pedido.getPrecioTotal());
+            stmtPedido.setString(3, pedido.getDireccionEnvio());
+            stmtPedido.executeUpdate();
 
-	        for (PedidoProducto pp : productos) {
-	            PedidoProductoDAO.insertarProductoPedido(idPedido, pp);
-	        }
+            ResultSet rs = stmtPedido.getGeneratedKeys();
+            int idPedido = -1;
+            if (rs.next()) {
+                idPedido = rs.getInt(1);
+                pedido.setIdPedido(idPedido);
+            }
 
-	        System.out.println("Pedido guardado correctamente.");
+            for (PedidoProducto pp : productos) {
+                PedidoProductoDAO.insertarProductoPedido(idPedido, pp);
+            }
 
-	    } catch (Exception e) {
-	        System.out.println("Error al guardar el pedido.");
-	        e.printStackTrace();
+            System.out.println("Pedido guardado correctamente.");
 
-	    } finally {
-	        try {
-	            if (stmtDetalle != null) stmtDetalle.close();
-	            if (stmtPedido != null) stmtPedido.close();
-	            if (conn != null) conn.close();
-	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	        }
-	    }
-	}
+        } catch (Exception e) {
+            System.out.println("Error al guardar el pedido.");
+            e.printStackTrace();
 
-    
+        } finally {
+            try {
+                if (stmtPedido != null) stmtPedido.close();
+                if (conn != null) conn.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
 
-    
     public static ArrayList<String> verPedidosDelMes() {
         ArrayList<String> lista = new ArrayList<>();
         String sql =
             "SELECT p.id, p.fecha, c.nombre AS cliente, p.preciototal, p.direccionEnvio, " +
             "cat.nombre AS categoria, prod.nombre AS producto, pp.unidades " +
             "FROM pedidos p " +
-            "JOIN clientes c ON p.idCliente = c.id " +
+            "JOIN clientes c ON p.idcliente = c.idcliente " +
             "JOIN pedidoproducto pp ON pp.idPedido = p.id " +
             "JOIN productos prod ON prod.idproducto = pp.idProducto " +
             "JOIN categorias cat ON cat.idCategoria = prod.idCategoria " +
@@ -112,5 +111,4 @@ public class PedidosDAO {
 
         return lista;
     }
-
 }

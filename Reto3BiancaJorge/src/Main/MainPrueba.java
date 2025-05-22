@@ -23,8 +23,9 @@ public class MainPrueba {
 	            	FuncionesMain.menuPedidos(sc);
 	                break;
 	            case 4:
-	            	System.out.println("4");
+	                FuncionesMain.menuInformes(sc);
 	                break;
+
 	            case 0:
 	                salir = true;
 	                System.out.println("Saliendo del programa...");

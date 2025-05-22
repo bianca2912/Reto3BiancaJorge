@@ -11,11 +11,11 @@ public class Conexion {
 	                "jdbc:mysql://localhost:3306/tienda", "izquierdo", "izquierdo");
 	            return conn;
 	        } catch (SQLException e) {
-	            System.out.println("Error de conexión");
+	            System.out.println("Error de conexiï¿½n");
 	            e.printStackTrace();
 	            return null;
 	        }
 	    }
-	}
+}
 
 
