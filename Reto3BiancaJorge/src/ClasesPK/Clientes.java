@@ -5,11 +5,10 @@ public class Clientes {
 	private String nombre;
 	private String direccion;
 	private int codigo;
-	public Clientes(String nombre, String direccion, int codigo) {
-		super();
-		this.nombre = nombre;
-		this.direccion = direccion;
-		this.codigo = codigo;
+	public Clientes( String nombre, String direccion, int codigo) {
+	    this.nombre = nombre;
+	    this.direccion = direccion;
+	    this.codigo = codigo;
 	}
 	public int getIdCliente() {
 		return idCliente;
@@ -40,6 +39,8 @@ public class Clientes {
 		return "Clientes [idCliente=" + idCliente + ", nombre=" + nombre + ", direccion=" + direccion + ", codigo="
 				+ codigo + "]";
 	}
+	
+	
 	
 	
 }

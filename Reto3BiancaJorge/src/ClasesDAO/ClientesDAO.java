@@ -37,7 +37,7 @@ public class ClientesDAO {
 	    }
 
 	    public static void buscarYModificarCliente(Clientes cliente) {
-	        String sqlBuscar = "SELECT * FROM clientes WHERE id = ?";
+	        String sqlBuscar = "SELECT * FROM clientes WHERE idcliente = ?"; 
 
 	        try (Connection conn = Conexion.conectar();
 	             PreparedStatement stmt = conn.prepareStatement(sqlBuscar)) {
@@ -46,7 +46,7 @@ public class ClientesDAO {
 	            ResultSet rs = stmt.executeQuery();
 
 	            if (rs.next()) {
-	                String sqlUpdate = "UPDATE clientes SET nombre = ?, direccion = ?, codigo = ? WHERE id = ?";
+	                String sqlUpdate = "UPDATE clientes SET nombre = ?, direccion = ?, codigo = ? WHERE idcliente = ?"; 
 	                try (PreparedStatement stmtUpdate = conn.prepareStatement(sqlUpdate)) {
 	                    stmtUpdate.setString(1, cliente.getNombre());
 	                    stmtUpdate.setString(2, cliente.getDireccion());
@@ -70,11 +70,10 @@ public class ClientesDAO {
 	            e.printStackTrace();
 	        }
 	    }
-	    
-	    public static Clientes buscarClientePorCodigo(int codigo) {
-	        Clientes c=null;
 
-	        String sql = "SELECT nombre,direccion,codigo FROM clientes WHERE codigo = ?";
+	    public static Clientes buscarClientePorCodigo(int codigo) {
+	        Clientes cliente = null;
+	        String sql = "SELECT * FROM clientes WHERE codigo = ?";
 
 	        try (Connection conn = Conexion.conectar();
 	             PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -83,19 +82,21 @@ public class ClientesDAO {
 	            ResultSet rs = stmt.executeQuery();
 
 	            if (rs.next()) {
-	                c=new Clientes(
-	                    rs.getString("nombre"),
+	                cliente = new Clientes(
+	                	rs.getString("nombre"),
 	                    rs.getString("direccion"),
-	                    rs.getInt("codigo"));
+	                    rs.getInt("codigo")
+	                );
 	            }
 
 	        } catch (SQLException e) {
-	            System.out.println("Error al buscar cliente por codigo.");
+	            System.out.println("Error al buscar cliente por código.");
 	            e.printStackTrace();
 	        }
 
-	        return c;
+	        return cliente;
 	    }
+
 	    
 	    
 	    
