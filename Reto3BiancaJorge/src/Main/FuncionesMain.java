@@ -9,7 +9,6 @@ import ClasesDAO.PedidosDAO;
 import ClasesDAO.ProductosDAO;
 import ClasesPK.Categorias;
 import ClasesPK.Clientes;
-import ClasesPK.DetallePedido;
 import ClasesPK.PedidoProducto;
 import ClasesPK.Pedidos;
 import ClasesPK.Productos;
@@ -344,7 +343,6 @@ public class FuncionesMain {
 	    }
 	}
 
-	
 
 	
 
